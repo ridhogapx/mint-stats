@@ -3,6 +3,7 @@ package main
 import (
 	"os/exec"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/fatih/color"
 )
@@ -14,8 +15,9 @@ func main() {
 		"cat /etc/os-release | grep 'UBUNTU_CODENAME'",
 	}
 
-	border := strings.Repeat("#", 30)
-	color.Green(border)
+	border := strings.Repeat("=", 15)
+	msg := border + " Linux Ubuntu Based Information " + border
+	color.Green(msg)
 
 	for _, cmd := range getOS {
 		c := exec.Command("bash", "-c", cmd)
@@ -27,6 +29,5 @@ func main() {
 
 		color.Yellow(string(out))
 	}
-
-	color.Green(border)
+	color.Green("%v ", strings.Repeat("=", utf8.RuneCountInString(msg)))
 }
