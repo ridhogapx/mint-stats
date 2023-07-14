@@ -1,23 +1,20 @@
 package main
 
 import (
-	"fmt"
 	"os/exec"
+
+	"github.com/fatih/color"
 )
 
 func main() {
-	c := []string{
-		"ping -c 2 google.com",
-		"ping -c 2 facebook.com",
+	getOS := exec.Command("bash", "-c", "cat /etc/os-release | grep 'UBUNTU_CODENAME' ")
+
+	out, err := getOS.Output()
+
+	if err != nil {
+		color.Red("Erro: %d", err)
 	}
 
-	for _, command := range c {
-		cmd := exec.Command("bash", "-c", command)
-		out, err := cmd.Output()
+	color.Yellow(string(out))
 
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println(string(out))
-	}
 }
