@@ -6,13 +6,18 @@ import (
 )
 
 func main() {
-	cmd := exec.Command("ls")
-
-	out, err := cmd.Output()
-
-	if err != nil {
-		panic(err)
+	c := []string{
+		"ping -c 2 google.com",
+		"ping -c 2 facebook.com",
 	}
 
-	fmt.Println(string(out))
+	for _, command := range c {
+		cmd := exec.Command("bash", "-c", command)
+		out, err := cmd.Output()
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(string(out))
+	}
 }
